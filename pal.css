@@ -1,8 +1,30 @@
+body {
+	background-color: #FFFFFF;
+	color: #555555;
+	-webkit-transition: background-color 0.4s ease;
+    -moz-transition: background-color 0.4s ease;
+    -o-transition: background-color 0.4s ease;
+    transition: background-color 0.4s ease;
+}
+
+body.body-bg-dark {
+	background-color: #000000;
+	color: #EEEEEE;
+	-webkit-transition: background-color 0.4s ease;
+    -moz-transition: background-color 0.4s ease;
+    -o-transition: background-color 0.4s ease;
+    transition: background-color 0.4s ease;
+}
+
+.pal-logo {
+	float: left;
+}
+
 .square {
 	float: left;
     background: #000;
-    width: 3vw;
-    height: 3vw;
+    width: 5vh;
+    height: 5vh;
 }
 
 .square p {
@@ -10,15 +32,20 @@
 	font-size: 8pt;
 }
 
-#palette-table {
-	border-collapse: separate;
-	border-spacing: 0 0.3em;
+#bg-toggle {
+	float: right;
+	font-size: 8pt;
+	margin-top: 1px;
+}
+
+.palette-row {
+	margin-top: 0.5em;
+	margin-left: 0.1em;
 }
 
 .palette-header {
-	text-align: right;
-	vertical-align: middle;
-	padding-right: 1em;
+	font-size: 10pt;
+	margin-bottom: 0;
 }
 
 #palettes {

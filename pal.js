@@ -14,8 +14,8 @@ function hex_to_srgb(hex) {
     } : null;
 }
 
-function srgb_to_hex(r, g, b) {
-	r = Math.round(r); g = Math.round(g); b = Math.round(b);
+function srgb_to_hex(color) {
+	r = Math.round(color.r); g = Math.round(color.g); b = Math.round(color.b);
 
 	function srgb_component_to_hex(c) {
 		var hex = c.toString(16);
@@ -45,11 +45,12 @@ function gamma_compress(color) {
 gamma_compress.inv_gamma = 1.0/2.4
 
 function parse_colors(colors_text) {
-	tokens = colors_text.split(/\s+/);
+	tokens = colors_text.split(/[^a-zA-Z#\d]+/);
 	colors = [];
 
 	for(i = 0; i < tokens.length; ++i) {
-		this_color = hex_to_srgb(tokens[i]);
+		clean_token = tokens[i].replace(/[^0-9a-zA-Z#]/gi, '');
+		this_color = hex_to_srgb(clean_token);
 		if(this_color) colors.push(this_color);
 	}
 
@@ -63,7 +64,7 @@ function update_palette(div, colors) {
 		color = colors[i];
 		square = $(document.createElement('div'));
 		square.addClass('square');
-		square.css('background', srgb_to_hex(color.r, color.g, color.b))
+		square.css('background', srgb_to_hex(color))
 		div.append(square);
 	}
 }
@@ -84,7 +85,7 @@ function to_grayscale(lrgb_color) {
 	return {r: avg, g: avg, b: avg}
 }
 
-$('#palette-input').bind('input propertychange', function() {
+function update_palettes() {
 	srgb_colors = parse_colors($('#palette-input').val());
 	lrgb_colors = convert_colors(srgb_colors, gamma_expand);
 
@@ -102,14 +103,81 @@ $('#palette-input').bind('input propertychange', function() {
 		update_palette($('#palette-protanomaly'), colors_protanomaly);
 		update_palette($('#palette-protanopia'), colors_protanopia);
 	}
-})
+}
+
+$('#palette-input').bind('input propertychange', function() { update_palettes() });
 
 // default values
 default_colors = [{r: 255, g: 111, b: 0}, {r: 205, g: 118, b: 15}, {r: 155, g: 126, b: 30}, {r: 105, g: 134, b: 45}, {r: 56, g: 142, b: 60},
-					{r: 49, g: 140, b: 102}, {r: 43, g: 139, b: 144}, {r: 36, g: 137, b: 186}];
+					{r: 43, g: 139, b: 144}, {r: 36, g: 137, b: 186}];
 update_palette($('#palette-original'), default_colors);
 update_palette($('#palette-grayscale'), convert_colors(default_colors, to_grayscale));
 update_palette($('#palette-deuteranomaly'), convert_colors(default_colors, fBlind['Deuteranomaly']));
 update_palette($('#palette-deuteranopia'), convert_colors(default_colors, fBlind['Deuteranopia']));
 update_palette($('#palette-protanomaly'), convert_colors(default_colors, fBlind['Protanomaly']));
 update_palette($('#palette-protanopia'), convert_colors(default_colors, fBlind['Protanopia']));
+
+// monitor bg toggle button
+$('#bg-toggle').click(function() {
+	$('body').toggleClass('body-bg-dark');
+})
+
+function load_example() {
+	example = window.location.hash.substr(1);
+	color_text = null;
+	switch(example) {
+		case 'ex-bootstrap':
+			color_text = convert_colors(default_colors, srgb_to_hex);
+			break;
+		case 'ex-stonesoup':
+			color_text = convert_colors([
+					{r: 57, g: 106, b: 177}, {r: 218, g: 124, b: 48}, {r: 62, g: 160, b: 81},
+					{r: 204, g: 37, b: 41}, {r: 83, g: 81, b: 84}, {r: 107, g: 76, b: 154},
+					{r: 146, g: 36, b:40}, {r: 148, g: 139, b: 61}
+					], srgb_to_hex
+			);
+			break;
+		case 'ex-stonesoup-bars':
+			color_text = convert_colors([
+					{r: 114, g: 147, b: 203}, {r: 225, g: 151, b: 76}, {r: 132, g: 166, b: 91},
+					{r: 211, g: 94, b: 96}, {r: 128, g: 133, b: 133}, {r: 144, g: 103, b: 167},
+					{r: 171, g: 104, b: 87}, {r: 204, g: 194, b: 16}
+					], srgb_to_hex
+			);
+			break;
+
+		case 'ex-tableau10':
+			color_text = convert_colors([
+					{r: 31, g: 119, b: 180}, {r: 255, g: 127, b: 14}, {r: 44, g: 160, b: 44},
+					{r: 213, g: 39, b: 40}, {r: 148, g: 103, b: 189}, {r: 140, g: 86, b: 75},
+					{r: 227, g: 119, b: 194}, {r: 127, g: 127, b: 127}, {r: 188, g: 189, b: 34},
+					{r: 23, g: 190, b: 207},
+				], srgb_to_hex
+			);
+			break;
+
+		case 'ex-tableau20':
+			color_text = convert_colors([
+					{r: 31, g: 119, b: 180}, {r: 174, g: 199, b: 232}, {r: 255, g: 127, b: 14},
+					{r: 255, g: 187, b: 120}, {r: 44, g: 160, b: 44}, {r: 152, g: 223, b: 138},
+					{r: 214, g: 39, b: 40}, {r: 255, g: 152, b: 150}, {r: 148, g: 103, b: 189},
+					{r: 197, g: 176, b: 213}, {r: 140, g: 86, b: 75}, {r: 196, g: 156, b: 148},
+					{r: 227, g: 119, b: 194}, {r: 247, g: 182, b: 210}, {r: 127, g: 127, b: 127},
+					{r: 199, g: 199, b: 199}, {r: 188, g: 189, b: 34}, {r: 219, g: 219, b: 141},
+					{r: 23, g: 190, b: 207}, {r: 158, g: 218, b: 229}
+				], srgb_to_hex
+			);
+			break;
+	}
+
+	if(color_text) {
+		$('#palette-input').val(color_text.join(' '));
+		update_palettes();
+	}
+}
+
+// monitor example links
+$('.ex-link').click(function() {
+	location.href = $(this).attr('href');
+	load_example();
+})
