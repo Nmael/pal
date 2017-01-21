@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>pal - accessible color palettes</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link href="pal.css" rel="stylesheet">
+		<link rel="icon" type="image/png" href="favicon.png">
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse">
+			<div class="container">
+				<div class="navbar-header">
+					<a href ="#" class="navbar-left"><img id="logo" src="favicon.png" width=32 height=32></a>
+					<a class="navbar-brand" href="#">pal &mdash; simulate color palettes in color-deficient contexts</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+			<p>Enter your palette colors below in hex (#RRGGBB or #RGB) format, separated by spaces or newlines.</p>
+			<textarea id="palette-input" class="form-control" rows="3"></textarea>
+		</div>
+
+		<div id="palettes" class="container">
+			<table id="palette-table">
+				<tr>
+					<td class="palette-header"><p>Original</p></td>
+					<td><div id="palette-original"></div></td>
+				</tr>
+				<tr>
+					<td class="palette-header"><p>Grayscale</p></td>
+					<td><div id="palette-grayscale"></div></td>
+				</tr>
+				<tr>
+					<td class="palette-header"><p>Deuteranomaly<br /><small>(6% of males)</small></p></td>
+					<td><div id="palette-deuteranomaly"></div></td>
+				</tr>
+				<tr>
+					<td class="palette-header"><p>Protanomaly<br /><small>(1% of males)</small></p></td>
+					<td><div id="palette-protanomaly"></div></td>
+				</tr>
+				<tr>
+					<td class="palette-header"><p>Deuteranopia<br /><small>(1% of males)</small></p></td>
+					<td><div id="palette-deuteranopia"></div></td>
+				</tr>
+				<tr>
+					<td class="palette-header"><p>Protanopia<br /><small>(1% of males)</small></p></td>
+					<td><div id="palette-protanopia"></div></td>
+				</tr>
+		</div>
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="hcirn_colorblind_simulation.js"></script>
+		<script src="pal.js"></script>
+	</body>
+</html>

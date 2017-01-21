@@ -1,0 +1,31 @@
+.square {
+	float: left;
+    background: #000;
+    width: 3vw;
+    height: 3vw;
+}
+
+.square p {
+    color: #fff;
+	font-size: 8pt;
+}
+
+#palette-table {
+	border-collapse: separate;
+	border-spacing: 0 0.3em;
+}
+
+.palette-header {
+	text-align: right;
+	vertical-align: middle;
+	padding-right: 1em;
+}
+
+#palettes {
+	margin-top: 1em;
+}
+
+#logo {
+	margin-top: 0.5em;
+	margin-right: 0.5em;
+}
