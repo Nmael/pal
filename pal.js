@@ -105,31 +105,29 @@ function update_palettes() {
 	}
 }
 
-$('#palette-input').bind('input propertychange', function() { update_palettes() });
+function parse_hash() {
+	hash = window.location.hash.substr(1);
 
-// default values
-default_colors = [{r: 255, g: 111, b: 0}, {r: 205, g: 118, b: 15}, {r: 155, g: 126, b: 30}, {r: 105, g: 134, b: 45}, {r: 56, g: 142, b: 60},
-					{r: 43, g: 139, b: 144}, {r: 36, g: 137, b: 186}];
-update_palette($('#palette-original'), default_colors);
-update_palette($('#palette-grayscale'), convert_colors(default_colors, to_grayscale));
-update_palette($('#palette-deuteranomaly'), convert_colors(default_colors, fBlind['Deuteranomaly']));
-update_palette($('#palette-deuteranopia'), convert_colors(default_colors, fBlind['Deuteranopia']));
-update_palette($('#palette-protanomaly'), convert_colors(default_colors, fBlind['Protanomaly']));
-update_palette($('#palette-protanopia'), convert_colors(default_colors, fBlind['Protanopia']));
+	matches = /^ex-(.*)/.exec(hash);
+	if(matches) {
+		load_example(matches[1]);
+		return;
+	}
 
-// monitor bg toggle button
-$('#bg-toggle').click(function() {
-	$('body').toggleClass('body-bg-dark');
-})
+	matches = /^p-(.*)/.exec(hash);
+	if(matches) {
+		load_hash_colors(matches[1]);
+		return;
+	}
+}
 
-function load_example() {
-	example = window.location.hash.substr(1);
+function load_example(example_name) {
 	color_text = null;
-	switch(example) {
-		case 'ex-bootstrap':
+	switch(example_name) {
+		case 'bootstrap':
 			color_text = convert_colors(default_colors, srgb_to_hex);
 			break;
-		case 'ex-stonesoup':
+		case 'stonesoup':
 			color_text = convert_colors([
 					{r: 57, g: 106, b: 177}, {r: 218, g: 124, b: 48}, {r: 62, g: 160, b: 81},
 					{r: 204, g: 37, b: 41}, {r: 83, g: 81, b: 84}, {r: 107, g: 76, b: 154},
@@ -137,7 +135,7 @@ function load_example() {
 					], srgb_to_hex
 			);
 			break;
-		case 'ex-stonesoup-bars':
+		case 'stonesoup-bars':
 			color_text = convert_colors([
 					{r: 114, g: 147, b: 203}, {r: 225, g: 151, b: 76}, {r: 132, g: 166, b: 91},
 					{r: 211, g: 94, b: 96}, {r: 128, g: 133, b: 133}, {r: 144, g: 103, b: 167},
@@ -146,7 +144,7 @@ function load_example() {
 			);
 			break;
 
-		case 'ex-tableau10':
+		case 'tableau10':
 			color_text = convert_colors([
 					{r: 31, g: 119, b: 180}, {r: 255, g: 127, b: 14}, {r: 44, g: 160, b: 44},
 					{r: 213, g: 39, b: 40}, {r: 148, g: 103, b: 189}, {r: 140, g: 86, b: 75},
@@ -156,7 +154,7 @@ function load_example() {
 			);
 			break;
 
-		case 'ex-tableau20':
+		case 'tableau20':
 			color_text = convert_colors([
 					{r: 31, g: 119, b: 180}, {r: 174, g: 199, b: 232}, {r: 255, g: 127, b: 14},
 					{r: 255, g: 187, b: 120}, {r: 44, g: 160, b: 44}, {r: 152, g: 223, b: 138},
@@ -176,8 +174,53 @@ function load_example() {
 	}
 }
 
+function make_palette_link() {
+	srgb_colors = parse_colors($('#palette-input').val());
+	color_str = 'p-'
+	for(i = 0; i < srgb_colors.length; ++i) {
+		color_str += srgb_to_hex(srgb_colors[i]).substr(1); // substr removes # character
+		if(i < srgb_colors.length - 1) {
+			color_str += '-';
+		}
+	}
+
+	window.location.hash = color_str;
+	$('#palette-link').attr('href', window.location.href);
+	$('#palette-link').text(window.location.href);
+}
+
+function load_hash_colors(hash_colors) {
+	colors = hash_colors.split('-');
+	$('#palette-input').val(colors.join(' '));
+	update_palettes();
+}
+
+$('#palette-input').bind('input propertychange', function() { update_palettes() });
+
+// default values
+default_colors = [{r: 255, g: 111, b: 0}, {r: 205, g: 118, b: 15}, {r: 155, g: 126, b: 30}, {r: 105, g: 134, b: 45}, {r: 56, g: 142, b: 60},
+					{r: 43, g: 139, b: 144}, {r: 36, g: 137, b: 186}];
+update_palette($('#palette-original'), default_colors);
+update_palette($('#palette-grayscale'), convert_colors(default_colors, to_grayscale));
+update_palette($('#palette-deuteranomaly'), convert_colors(default_colors, fBlind['Deuteranomaly']));
+update_palette($('#palette-deuteranopia'), convert_colors(default_colors, fBlind['Deuteranopia']));
+update_palette($('#palette-protanomaly'), convert_colors(default_colors, fBlind['Protanomaly']));
+update_palette($('#palette-protanopia'), convert_colors(default_colors, fBlind['Protanopia']));
+
+// monitor bg toggle button
+$('#bg-toggle').click(function() { $('body').toggleClass('body-bg-dark'); });
+
+// monitor palette link button
+$('#palette-link-btn').click(function() { make_palette_link(); });
+
+// monitor hash for changes (e.g., back button)
+$(window).on('hashchange', function() { parse_hash(); });
+
 // monitor example links
 $('.ex-link').click(function() {
 	location.href = $(this).attr('href');
-	load_example();
-})
+	parse_hash();
+});
+
+// interpret hash if user originally navigated to a URL including one
+parse_hash();

@@ -65,10 +65,32 @@
 			</div>
 		</div>
 
+		<div class="modal fade" id="palette-link-modal" tabindex="-1" role="dialog" aria-labelledby="palette-link-label">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="palette-link-label">Link to palette</h4>
+					</div>
+
+					<div class="modal-body">
+						Copy this link to save and share your palette:
+						<pre><a href="" id="palette-link"></a></pre>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 		<div class="container">
 			<p>Enter your palette colors below in hex format (#RRGGBB or #RGB), separated by any character(s).</p>
 			<textarea id="palette-input" class="form-control" rows="3"></textarea>
-			<button type="button" id="bg-toggle" class="btn btn-default btn-xs">Toggle background</button>
+			<button type="button" id="bg-toggle" class="btn btn-default btn-xs palette-form-btn">Toggle background</button>
+			<button type="button" id="palette-link-btn" class="btn btn-default btn-xs palette-form-btn" data-toggle="modal" data-target="#palette-link-modal">Link to palette</button>
 		</div>
 
 		<div id="palettes" class="container">
