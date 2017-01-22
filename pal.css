@@ -1,19 +1,31 @@
 body {
 	background-color: #FFFFFF;
 	color: #555555;
+}
+
+body.body-bg-dark {
+	background-color: #000000;
+	color: #EEEEEE;
+}
+
+.bg-transition {
 	-webkit-transition: background-color 0.4s ease;
     -moz-transition: background-color 0.4s ease;
     -o-transition: background-color 0.4s ease;
     transition: background-color 0.4s ease;
 }
 
-body.body-bg-dark {
-	background-color: #000000;
-	color: #EEEEEE;
-	-webkit-transition: background-color 0.4s ease;
-    -moz-transition: background-color 0.4s ease;
-    -o-transition: background-color 0.4s ease;
-    transition: background-color 0.4s ease;
+.github-logo {
+	position: absolute;
+	bottom: 1em;
+	right: 1em;
+	width: 100px;
+	height: 27px;
+	background-image: url('github-light.png');
+}
+
+.github-logo-dark {
+	background-image: url('github-dark.png');
 }
 
 .pal-logo {
