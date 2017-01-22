@@ -1,7 +1,7 @@
 pal
 ---
 
-[Click here to use pal!](https://rawgit.com/Nmael/pal/master/index.html)
+[Click here to use pal!](https://nmael.github.io/pal/)
 
 pal allows convenient visualization of a color palette in conditions where full interpretation of color may not be possible. These conditions include grayscale conversion (e.g., printing using a "black and white" printer) and several forms of color blindness.
 
