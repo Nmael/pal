@@ -208,7 +208,10 @@ update_palette($('#palette-protanomaly'), convert_colors(default_colors, fBlind[
 update_palette($('#palette-protanopia'), convert_colors(default_colors, fBlind['Protanopia']));
 
 // monitor bg toggle button
-$('#bg-toggle').click(function() { $('body').toggleClass('body-bg-dark'); });
+$('#bg-toggle').click(function() {
+	$('body').toggleClass('body-bg-dark');
+	$('.github-logo').toggleClass('github-logo-dark');
+});
 
 // monitor palette link button
 $('#palette-link-btn').click(function() { make_palette_link(); });
